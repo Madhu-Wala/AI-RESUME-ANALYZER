@@ -1,0 +1,189 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="bg-white shadow p-4 flex justify-between">
+    <h1 class="text-xl font-bold text-blue-600">Candidate Details</h1>
+    <a href="/job/{{ candidate.job_id }}" class="text-blue-500">← Back</a>
+</div>
+
+<div class="flex justify-center mt-10 px-4">
+
+<div class="bg-white p-8 rounded-2xl shadow w-full max-w-xl">
+
+<h2 class="text-2xl font-bold mb-4 text-gray-800">
+{{ candidate.name }}
+</h2>
+
+<div class="space-y-2 text-gray-600">
+
+<p><strong>Email:</strong> {{ candidate.email }}</p>
+<p><strong>Phone:</strong> {{ candidate.phone }}</p>
+<p><strong>Score:</strong> <span class="text-green-600 font-bold">{{ candidate.score }}</span></p>
+
+</div>
+
+<a href="{{candidate.resume_link}}" target="_blank"
+class="mt-6 inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg">
+View Resume
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<!-- HEADER -->
+<div class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold text-blue-600">Candidate Details</h1>
+    <a href="/job/{{ candidate.job_id }}" class="text-blue-500 hover:underline">← Back</a>
+</div>
+
+<div class="flex justify-center mt-10 px-4">
+
+<div class="w-full max-w-3xl space-y-6">
+
+<!-- CANDIDATE CARD -->
+<div class="bg-white p-8 rounded-2xl shadow">
+
+<h2 class="text-2xl font-bold mb-4 text-gray-800">
+    {{ candidate.name }}
+</h2>
+
+<div class="space-y-2 text-gray-600">
+    <p><strong>Email:</strong> {{ candidate.email }}</p>
+    <p><strong>Phone:</strong> {{ candidate.phone }}</p>
+    <p><strong>Score:</strong> 
+        <span class="text-green-600 font-bold">{{ candidate.score }}</span>
+    </p>
+</div>
+
+<a href="{{candidate.resume_link}}" target="_blank"
+class="mt-6 inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg">
+    View Resume
+</a>
+
+</div>
+
+<!-- 🤖 AI INSIGHTS -->
+<div class="bg-white p-6 rounded-2xl shadow">
+
+<h3 class="text-lg font-semibold text-blue-600 mb-3">🤖 AI Insights</h3>
+
+<div class="flex gap-3 mb-4">
+    <button onclick="loadSummary()" 
+        class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg">
+        Summarize Resume
+    </button>
+
+    <button onclick="loadExplanation()" 
+        class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg">
+        Why this candidate?
+    </button>
+</div>
+
+<div id="ai-output" 
+     class="bg-gray-100 p-4 rounded-lg text-sm whitespace-pre-wrap min-h-[80px]">
+    Click a button to generate AI insights...
+</div>
+
+</div>
+
+<!-- 💬 CHATBOT -->
+<div class="bg-white p-6 rounded-2xl shadow">
+
+<h3 class="text-lg font-semibold text-orange-600 mb-3">💬 Ask AI about the candidate</h3>
+
+<div class="flex gap-2">
+    <input id="question" type="text" placeholder="Ask something..."
+        class="flex-1 border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400">
+
+    <button onclick="askAI()" 
+        class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg">
+        Ask
+    </button>
+</div>
+
+<div id="chat-response" 
+     class="mt-4 bg-orange-50 p-4 rounded-lg text-sm whitespace-pre-wrap min-h-[60px]">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- JS -->
+<script>
+
+function loadSummary() {
+    const output = document.getElementById("ai-output");
+    output.innerText = "Generating summary...";
+
+    fetch("/summary/{{ candidate.id }}")
+    .then(res => res.text())
+    .then(data => {
+        output.innerText = data;
+    })
+    .catch(() => {
+        output.innerText = "Error generating summary.";
+    });
+}
+
+function loadExplanation() {
+    const output = document.getElementById("ai-output");
+    output.innerText = "Analyzing candidate...";
+
+    fetch("/explain/{{ candidate.id }}")
+    .then(res => res.text())
+    .then(data => {
+        output.innerText = data;
+    })
+    .catch(() => {
+        output.innerText = "Error generating explanation.";
+    });
+}
+
+function askAI() {
+    const q = document.getElementById("question").value;
+    const responseBox = document.getElementById("chat-response");
+
+    if (!q.trim()) return;
+
+    responseBox.innerText = "Thinking...";
+
+    fetch("/ask/{{ candidate.id }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "question=" + encodeURIComponent(q)
+    })
+    .then(res => res.text())
+    .then(data => {
+        responseBox.innerText = data;
+    })
+    .catch(() => {
+        responseBox.innerText = "Error getting response.";
+    });
+}
+
+</script>
+
+</body>
+</html>

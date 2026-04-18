@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<!-- NAVBAR -->
+<div class="bg-white shadow p-4 flex justify-between items-center sticky top-0">
+    <h1 class="text-xl font-bold text-blue-600">ATS Dashboard</h1>
+
+    <div class="flex items-center gap-4">
+        <span class="text-gray-600 text-sm">
+            {{ session.user_email }}
+        </span>
+
+        <a href="/logout">
+            <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
+                Logout
+            </button>
+        </a>
+    </div>
+</div>
+
+<!-- FORM -->
+<div class="flex justify-center mt-10 px-4">
+
+<div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-3xl">
+
+<h2 class="text-2xl font-bold text-blue-600 mb-6 text-center">
+New Hiring Pipeline
+</h2>
+
+<form method="POST" class="space-y-4">
+<input 
+    name="job_title" 
+    placeholder="Enter Job Title (e.g. Backend Hiring - April)"
+    class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
+    required
+>
+<input name="sheet_url" placeholder="Google Sheet URL"
+class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400">
+
+<input name="name_column" type="text" placeholder="Name Column" required
+class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400">
+
+<input name="email_column" placeholder="Email column name (e.g. Email Address)"
+class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400">
+
+<input name="phone_column" placeholder="Phone column name (e.g. Phone number)"
+class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400">
+
+<input name="resume_column" placeholder="Resume link column name (e.g. Submit your resume)"
+class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400">
+
+<textarea name="jd" rows="6" placeholder="Paste Job Description"
+class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"></textarea>
+
+<button class="w-full bg-teal-500 hover:bg-teal-600 text-white py-3 rounded-lg font-semibold">
+Analyze Candidates
+</button>
+
+</form>
+
+</div>
+</div>
+
+</body>
+</html>

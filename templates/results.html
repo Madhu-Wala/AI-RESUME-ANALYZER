@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+        }
+        .card {
+            background: white;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+        .score {
+            color: green;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h3>Total Candidates: {{ results|length }}</h3>
+    <h2>Ranked Candidates</h2>
+
+    {% for r in results %}
+        <div class="card">
+            <b>Name:</b> {{ r.name }} <br>
+            <b class="score">Score:</b> {{ r.score }}% <br>
+
+            <b>Skills:</b> {{ r.skills }} <br>
+            <b>Missing:</b> {{ r.missing }}
+        </div>
+    {% endfor %}
+
+    <a href="/">⬅ Back</a>
+</div>
+
+</body>
+</html>
